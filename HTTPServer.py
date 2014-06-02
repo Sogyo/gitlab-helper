@@ -7,6 +7,8 @@ import logging
 from GitLab.GitLabHelper import GitLabHelper
 from GitLab.GitLabResponseHandler import GitLabResponseHandler
 from LDAP.LDAPHelper import LDAPHelper
+from configuration.ConfigFile import ConfigFile
+
 
 class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
@@ -28,20 +30,19 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
 
 if __name__ == '__main__':
+    settings = ConfigFile("settings.conf").settings
     log = logging.getLogger(__name__)
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s %(levelname)-8s %(message)s',
                         datefmt='%a, %d %b %Y %H:%M:%S')
 
-    port = 3731
-    address = "localhost"
-    ldaphelper = LDAPHelper("CN=sonar,OU=Systeem Accounts,DC=sogyo,DC=nl", "secret")
-    gitlabhelper = GitLabHelper("http://gittestkevin.sogyo.nl", "secret")
+    ldaphelper = LDAPHelper(settings.ldap_bind_user, settings.ldap_bind_password)
+    gitlabhelper = GitLabHelper(settings.gitlab_address, settings.gitlab_apikey)
     handler = GitLabResponseHandler()
 
     Handler = ServerHandler
 
-    httpd = SocketServer.TCPServer(("", port), Handler)
+    httpd = SocketServer.TCPServer(("", settings.bind_port), Handler)
 
-    print "Serving at: http://%(interface)s:%(port)s" % dict(interface=address or "localhost", port=port)
+    print "Serving at: http://%(interface)s:%(port)s" % dict(interface=settings.listen_to or "localhost", port=settings.bind_port)
     httpd.serve_forever()

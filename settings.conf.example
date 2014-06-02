@@ -1,0 +1,8 @@
+# Configuration for gitlab helper:
+# Key, Value pairs are divided by a '|'
+listen_to|localhost
+bind_port|3731
+ldap_user|CN=Foo,OU=Organisational Unit,DC=sogyo,DC=nl
+ldap_pass|secretpassword
+gitlab_address|http://foo.bar
+gitlab_apikey|mysecretkey

@@ -8,7 +8,7 @@ class GitLabCreateUserEvent(EqualityMixin):
         self.json = json
 
     def execute(self, ldaphelper, gitlabhelper):
-        ldap_groups = ldaphelper.groups_of_username(self.get_username())
+        ldap_groups = ldaphelper.get_groups_by_username(self.get_username())
         self.__log.debug("LDAP groups: " + str(ldap_groups))
         gitlab_groups = gitlabhelper.get_gitlab_group_names()
         self.__log.debug("GitLab groups: " + str(gitlab_groups))

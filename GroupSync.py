@@ -17,7 +17,7 @@ if __name__ == '__main__':
     itpp = "itpp"
     ignored_users = ["root", "etckeeper"]
 
-    git_users = [user for user in gitlabhelper.get_gitlab_users() if user not in ignored_users]
+    git_users = [user for user in gitlabhelper.get_gitlab_users() if user.get("username") not in ignored_users]
     for user in git_users:
         ldap_groups = ldaphelper.get_groups_by_username(user.get("username"))
         for group in gitlab_to_be_synced_groups:

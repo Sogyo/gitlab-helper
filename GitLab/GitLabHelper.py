@@ -26,7 +26,7 @@ class GitLabHelper():
             self.__log.debug("Groupname " + groupname + " does not exist in GitLab")
             return
         gid = group.get("id")
-        access_level = "developer"
+        access_level = "owner"
         self.__add_user_to_group(gid, user_id, access_level)
 
     def remove_user_from_group(self, group_name, user_id):

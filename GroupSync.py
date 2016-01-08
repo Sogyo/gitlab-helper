@@ -23,7 +23,7 @@ if __name__ == '__main__':
         for group in gitlab_to_be_synced_groups:
             gitlabhelper.add_user_to_group(itpp, user.get("id"))
             if group in ldap_groups:
-                log.info("Adding user " + str(user.get("name")) + " to group " + group)
+                log.info("Adding user " + str(user.get("name").encode("utf8", "replace")) + " to group " + group)
                 gitlabhelper.add_user_to_group(group, user.get("id"))
             else:
                 log.info("Removing user " + str(user.get("name")) + " from group " + group)
